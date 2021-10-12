@@ -1,0 +1,33 @@
+<div class={ "container " <> display_mode(@light) }>
+  Index: <%= @timer %>
+  <div class="sensors">
+    <div class="sensor">
+      <div class="value">
+        <%= @temperature %>
+      </div>
+      <div class="label">
+        温度 (°C)
+      </div>
+    </div>
+    <div class="sensor">
+      <div class="value">
+        <%= @humidity %>
+      </div>
+      <div class="label">
+        湿度
+      </div>
+    </div>
+    <div class="sensor">
+      <div class="value">
+        <%= if @light do %>
+          ☀️ 
+        <% else %>
+          🌙
+        <% end %>
+      </div>
+      <div class="label">
+        光
+      </div>
+    </div>
+  </div>
+</div>
