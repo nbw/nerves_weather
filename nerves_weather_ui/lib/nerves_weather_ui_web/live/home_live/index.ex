@@ -1,24 +1,28 @@
 defmodule NervesWeatherUiWeb.HomeLive.Index do
   use Phoenix.LiveView
 
+  # DHT refresh rate is 1s
+  @refresh_rate 2000
+  @refresh_light_rate 250
+
   def mount(_params, _, socket) do
-    if connected?(socket), do: Process.send_after(self(), :update, 1000)
+    if connected?(socket) do
+      Process.send_after(self(), :update, @refresh_rate)
+      Process.send_after(self(), :update_light, @refresh_light_rate)
+    end
 
-    socket =
-      socket
-      |> assign(:temperature, 0)
-      |> assign(:timer, 0)
-
-    {:ok, assign(socket, temperature: 0, humidity: 0, timer: 0, light: false)}
+    {:ok, assign(socket, default())}
   end
 
-  def handle_info(:update, %{assigns: %{timer: timer}} = socket) do
-    Process.send_after(self(), :update, 250)
-
+  def handle_info(:update, socket) do
+    Process.send_after(self(), :update, @refresh_rate)
     %{temperature: t, humidity: h} = measure_temp()
+    {:noreply, assign(socket, temperature: t, humidity: h)}
+  end
 
-    {:noreply,
-     assign(socket, temperature: t, humidity: h, light: measure_light(), timer: timer + 1)}
+  def handle_info(:update_light, socket) do
+    Process.send_after(self(), :update_light, @refresh_light_rate)
+    {:noreply, assign(socket, light: measure_light())}
   end
 
   def measure_temp do
@@ -26,7 +30,7 @@ defmodule NervesWeatherUiWeb.HomeLive.Index do
       {:ok, %{temperature: _t, humidity: _h} = data} = NervesWeatherFirmware.temperature()
       data
     rescue
-      _ -> %{temperature: 888, humidity: 999}
+      _ -> %{temperature: 0, humidity: 0}
     end
   end
 
@@ -44,5 +48,19 @@ defmodule NervesWeatherUiWeb.HomeLive.Index do
     else
       "dark"
     end
+  end
+
+  def hide(socket) do
+    if connected?(socket) do
+      ""
+    else
+      "hide"
+    end
+  end
+
+  defp default do
+    %{temperature: t, humidity: h} = measure_temp()
+
+    [temperature: t, humidity: h, light: measure_light()]
   end
 end
