@@ -68,10 +68,8 @@ config :nerves_weather_ui, NervesWeatherUiWeb.Endpoint,
   # Start the server since we're running in a release instead of through `mix`
   server: true,
   url: [host: "nerves.local", port: 80],
-  # live_view: [signing_salt: "3J2S31Z1"],
   secret_base_key: "pWTILdXT+8RMPzUrmGPrxPI1dbj24tALEuYBm3HsJJ2DyDNUAax02JM23CgfxFEF",
-  cache_static_manifest: "priv/static/cache_manifest.json",
-  watchers: []
+  cache_static_manifest: "priv/static/cache_manifest.json"
 
 if Mix.target() == :host or Mix.target() == :"" do
   import_config "host.exs"

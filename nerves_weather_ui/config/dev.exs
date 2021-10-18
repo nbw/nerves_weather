@@ -16,7 +16,7 @@ config :nerves_weather_ui, NervesWeatherUiWeb.Endpoint,
   secret_key_base: "pWTILdXT+8RMPzUrmGPrxPI1dbj24tALEuYBm3HsJJ2DyDNUAax02JM23CgfxFEF",
   watchers: [
     # Start the esbuild watcher by calling Esbuild.install_and_run(:default, args)
-    esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]}
+    # esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]}
   ]
 
 # ## SSL Support

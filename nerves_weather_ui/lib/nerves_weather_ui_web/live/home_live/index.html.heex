@@ -1,5 +1,7 @@
-<div class={ "container " <> display_mode(@light) }>
-  Index: <%= @timer %>
+<div class={ "live-container #{display_mode(@light)} #{hide(@socket)}" }>
+  <div class="title">
+    Nerves Weather
+  </div>
   <div class="sensors">
     <div class="sensor">
       <div class="value">
@@ -24,9 +26,6 @@
         <% else %>
           🌙
         <% end %>
-      </div>
-      <div class="label">
-        光
       </div>
     </div>
   </div>
