@@ -1,10 +1,12 @@
 # Nerves Weather Station
 
-![nerves weather](/docs/nerves-weather.gif)
-
 - Measure temperature
 - Measure humidity
 - Measure light
+- Use Phoenix's LiveView to display readings
+
+![nerves weather](/docs/nerves-weather.gif)
+![nerves weather](/docs/circuit.jpg)
 
 ## Parts
 
